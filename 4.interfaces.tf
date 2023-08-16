@@ -61,3 +61,16 @@ resource "aws_network_interface" "fmc_management" {
     Name = "${var.env_name} FMCv Mgmt"
   }
 }
+
+# FMC Data Interface
+resource "aws_network_interface" "fmc_data" {
+  depends_on      = [aws_subnet.aws_subnet.mgmt_subnet]
+  count           = var.create_fmcv ? 1 : 0
+  description     = "fmc_data"
+  subnet_id       = aws_subnet.mgmt_subnet.id
+  private_ips     = [var.fmc_data_private_ip]
+  security_groups = [aws_security_group.allow_all.id]
+  tags = {
+    Name = "${var.env_name} FMCv Data"
+  }
+}

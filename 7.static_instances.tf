@@ -58,13 +58,22 @@ resource "aws_eip" "fmc-mgmt-EIP" {
   }
 }
 
-
-# Assocaite FMC Management Interface to External IP
+# Associate FMC Management Interface to External IP
 resource "aws_eip_association" "fmc-mgmt-ip-assocation" {
   count                = var.create_fmcv ? 1 : 0
   network_interface_id = aws_network_interface.fmc_management[0].id
   allocation_id        = aws_eip.fmc-mgmt-EIP[0].id
 }
+
+# FMC Data Elastic IP
+resource "aws_eip" "fmc-mgmt-EIP" {
+  depends_on = [aws_internet_gateway.mgmt_igw,aws_instance.fmcv]
+  count      = var.create_fmcv ? 1 : 0
+  tags = {
+    "Name" = "${var.env_name} FMCv Data IP"
+  }
+}
+
 
 # App Resources
 
