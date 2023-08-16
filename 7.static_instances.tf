@@ -65,7 +65,8 @@ resource "aws_eip_association" "fmc-mgmt-ip-assocation" {
   allocation_id        = aws_eip.fmc-mgmt-EIP[0].id
 }
 
-# FMC Data Elastic IP
+# FMC Data Internal IP
+/*
 resource "aws_eip" "fmc-mgmt-EIP" {
   depends_on = [aws_internet_gateway.mgmt_igw,aws_instance.fmcv]
   count      = var.create_fmcv ? 1 : 0
@@ -73,7 +74,7 @@ resource "aws_eip" "fmc-mgmt-EIP" {
     "Name" = "${var.env_name} FMCv Data IP"
   }
 }
-
+*/
 
 # App Resources
 

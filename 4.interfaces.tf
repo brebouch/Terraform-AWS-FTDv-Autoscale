@@ -63,6 +63,7 @@ resource "aws_network_interface" "fmc_management" {
 }
 
 # FMC Data Interface
+/*
 resource "aws_network_interface" "fmc_data" {
   depends_on      = [aws_subnet.aws_subnet.mgmt_subnet]
   count           = var.create_fmcv ? 1 : 0
@@ -74,3 +75,4 @@ resource "aws_network_interface" "fmc_data" {
     Name = "${var.env_name} FMCv Data"
   }
 }
+*/
