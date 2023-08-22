@@ -266,3 +266,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+*.hcl
+*.tfstate
+*.4_x5
+*.1_x5
+*.info
