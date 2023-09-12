@@ -121,7 +121,7 @@ data "aws_ami" "ftdv" {
   owners      = ["679593333241"]
   filter {
     name   = "name"
-    values = ["ftdv-7.3*"]
+    values = ["ftdv-7.2*"]
   }
   filter {
     name   = "product-code"
