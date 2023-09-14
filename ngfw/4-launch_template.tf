@@ -13,6 +13,7 @@ resource "aws_launch_template" "ftd_launch_template" {
     subnet_id                   = data.aws_subnet.mgmt_subnet.id
     delete_on_termination       = true
     device_index                = 0
+    security_groups = [data.aws_security_group.fmc_ftd_mgmt]
   }
   user_data = base64encode(jsonencode({ "AdminPassword" : "${var.ftd_pass}" }))
 }
