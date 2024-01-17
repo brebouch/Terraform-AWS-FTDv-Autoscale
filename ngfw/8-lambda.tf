@@ -142,4 +142,4 @@ resource "aws_lambda_function" "lifecycle_ftdv" {
     }
   }
   role = aws_iam_role.lambda_role.arn
-}
+  
