@@ -12,7 +12,7 @@ data "aws_ami" "fmcv" {
 
  filter {
     name   = "name"
-    values = ["fmcv-7.3*"]
+    values = ["fmcv-7.2*"]
   }
 
   filter {
