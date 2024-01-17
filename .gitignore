@@ -8,11 +8,11 @@
 
 ### Loca Terraform variables
 terraform_local.tfvars
-terraform.tfvars
+*/terraform.tfvars
 *.tfstate*
 *.pem
 .terraform.lock*
-.terraform/
+*/.terraform/
 
 # Local History for Visual Studio Code
 .history/
