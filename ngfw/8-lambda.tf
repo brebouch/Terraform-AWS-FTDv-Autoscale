@@ -15,6 +15,7 @@ resource "aws_lambda_layer_version" "lambda_layer" {
 # Autoscale Manager
 
 resource "aws_lambda_function" "autoscale_manager" {
+  depends_on = [aws_iam_role_policy_attachment.attach_lambda_policy]
   function_name = "${var.env_name}-AutoscaleManager"
   description   = "AutoscaleManager Lambda is responsible to configure NGFWv"
   memory_size   = 2048
@@ -102,6 +103,7 @@ environment {
 # Lifecycle FMC
 
 resource "aws_lambda_function" "lifecycle_ftdv" {
+  depends_on = [aws_iam_role_policy_attachment.attach_lambda_policy]
   function_name = "${var.env_name}-LifecycleFTDv"
   vpc_config {
     security_group_ids = [data.aws_security_group.allow_all.id]
@@ -141,8 +143,3 @@ resource "aws_lambda_function" "lifecycle_ftdv" {
   }
   role = aws_iam_role.lambda_role.arn
 }
-
-
-
-
-
