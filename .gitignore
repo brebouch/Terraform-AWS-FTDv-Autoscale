@@ -13,6 +13,8 @@ terraform_local.tfvars
 *.pem
 .terraform.lock*
 */.terraform/
+./network/*.tfvars
+./ngfw/*.tfvars
 
 # Local History for Visual Studio Code
 .history/
