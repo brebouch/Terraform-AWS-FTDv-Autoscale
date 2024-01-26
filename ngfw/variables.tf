@@ -27,6 +27,12 @@ variable "aws_az" {
   type = string
 }
 
+variable "asg_name" {
+  type = string
+  description = "The name of the autoscaling group to be created"
+  default = "gwlb-asg"
+}
+
 # Secure Firewall
 
 # If creating FMCv in VPC then true, if using cdFMC then false.

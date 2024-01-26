@@ -3,8 +3,9 @@
 ##################
 
 resource "aws_autoscaling_group" "ftdv-asg" {
+  depends_on = [aws_cloudwatch_log_group.autoscale_manager]
   availability_zones        = [var.aws_az]
-  name                      = "gwlb-asg"
+  name                      = var.asg_name
   max_size                  = var.auto_scale_max_group_size
   min_size                  = var.auto_scale_min_group_size
   desired_capacity          = var.auto_scale_desired_group_size

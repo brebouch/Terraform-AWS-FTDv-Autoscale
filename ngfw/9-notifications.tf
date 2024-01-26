@@ -3,11 +3,11 @@
 ####################
 
 resource "aws_sns_topic" "user_notify_topic" {
-  name = join("-", [aws_autoscaling_group.ftdv-asg.name, "UserNotifyTopic"])
+  name = join("-", ["gwlb-asg", "UserNotifyTopic"])
 }
 
 resource "aws_sns_topic" "as_manager_topic" {
-  name = join("-", [aws_autoscaling_group.ftdv-asg.name, "autoscale-manager-topic"])
+  name = join("-", ["gwlb-asg", "autoscale-manager-topic"])
 }
 
 resource "aws_sns_topic_subscription" "user_notify_topic_subscription" {
@@ -34,7 +34,7 @@ resource "aws_lambda_permission" "cloudwatch_sns_autoscale" {
 # Cloudwatch Events Rules
 
 resource "aws_cloudwatch_event_rule" "instance_event" {
-  name          = join("-", [aws_autoscaling_group.ftdv-asg.name, "notify-instance-event"])
+  name          = join("-", ["gwlb-asg", "notify-instance-event"])
   event_pattern = <<EOF
   {
     "source": [
@@ -46,7 +46,7 @@ resource "aws_cloudwatch_event_rule" "instance_event" {
     ],
     "detail": {
       "AutoScalingGroupName": [
-        "${aws_autoscaling_group.ftdv-asg.name}"
+        "${"gwlb-asg"}"
       ]
     }
   }
@@ -54,7 +54,7 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "instance_launch_event" {
-  name          = join("-", [aws_autoscaling_group.ftdv-asg.name, "instance-launch-event"])
+  name          = join("-", ["gwlb-asg", "instance-launch-event"])
   event_pattern = <<EOF
   {
     "source": [
@@ -65,7 +65,7 @@ resource "aws_cloudwatch_event_rule" "instance_launch_event" {
     ],
     "detail": {
       "AutoScalingGroupName": [
-        "${aws_autoscaling_group.ftdv-asg.name}"
+        "${"gwlb-asg"}"
       ]
     }
   }
@@ -73,7 +73,7 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "lifecycle_event" {
-  name          = join("-", [aws_autoscaling_group.ftdv-asg.name, "lifecycle-action"])
+  name          = join("-", ["gwlb-asg", "lifecycle-action"])
   event_pattern = <<EOF
   {
     "source": [
@@ -85,7 +85,7 @@ resource "aws_cloudwatch_event_rule" "lifecycle_event" {
     ],
     "detail": {
       "AutoScalingGroupName": [
-        "${aws_autoscaling_group.ftdv-asg.name}"
+        "${var.asg_name}"
       ]
     }
   }
@@ -94,7 +94,7 @@ EOF
 
 
 resource "aws_cloudwatch_event_rule" "health_doctor_cron" {
-  name                = join("-", [aws_autoscaling_group.ftdv-asg.name, "health-doc-cron"])
+  name                = join("-", ["gwlb-asg", "health-doc-cron"])
   schedule_expression = "rate(${60} minutes)"
 }
 

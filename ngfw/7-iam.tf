@@ -1,7 +1,7 @@
 # IAM Polcies
 
 resource "aws_iam_role" "lambda_role" {
-  name               = join("-", [aws_autoscaling_group.ftdv-asg.name, "Role"])
+  name               = join("-", [var.asg_name, "Role"])
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -23,7 +23,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name   = join("-", [aws_autoscaling_group.ftdv-asg.name, "Policy"])
+  name   = join("-", [var.asg_name, "Policy"])
   policy = jsonencode(
     {
       "Version" : "2012-10-17",

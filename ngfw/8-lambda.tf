@@ -27,9 +27,9 @@ resource "aws_lambda_function" "autoscale_manager" {
   layers                         = [aws_lambda_layer_version.lambda_layer.arn]
   environment {
     variables = {
-      ASG_NAME : aws_autoscaling_group.ftdv-asg.name
+      ASG_NAME : var.asg_name
       AS_MANAGER_TOPIC : aws_sns_topic.as_manager_topic.id
-      A_CRON_JOB_NAME : join("-", [aws_autoscaling_group.ftdv-asg.name, "health-doc-cron"] )
+      A_CRON_JOB_NAME : join("-", [var.asg_name, "health-doc-cron"] )
       CDO_REGION : var.cdo_region
       CDFMC : !var.create_fmcv
       CDO_TOKEN : var.cdo_token
@@ -77,10 +77,10 @@ environment {
   variables = {
     DEBUG_LOGS : "enable"
     GENEVE_SUPPORT : "enable"
-    ASG_NAME : aws_autoscaling_group.ftdv-asg.name
+    ASG_NAME : var.asg_name
     FMC_DEVICE_GRP : var.fmc_device_grp_name
     FMC_PERFORMANCE_TIER : var.fmc_performance_license_tier
-    A_CRON_JOB_NAME : join("-", [aws_autoscaling_group.ftdv-asg.name, "health-doc-cron"] )
+    A_CRON_JOB_NAME : join("-", [var.asg_name, "health-doc-cron"] )
     AS_MANAGER_TOPIC : aws_sns_topic.as_manager_topic.id
     USER_NOTIFY_TOPIC_ARN : aws_sns_topic.user_notify_topic.id
     LB_ARN_OUTSIDE : aws_lb.gwlb.arn
@@ -103,7 +103,7 @@ environment {
 # Lifecycle FMC
 
 resource "aws_lambda_function" "lifecycle_ftdv" {
-  depends_on = [aws_iam_role_policy_attachment.attach_lambda_policy]
+  depends_on    = [aws_iam_role_policy_attachment.attach_lambda_policy]
   function_name = "${var.env_name}-LifecycleFTDv"
   vpc_config {
     security_group_ids = [data.aws_security_group.allow_all.id]
@@ -128,11 +128,11 @@ resource "aws_lambda_function" "lifecycle_ftdv" {
       FMC_SERVER : local.fmc_mgmt_ip
       FMC_USERNAME : var.fmc_username
       FMC_PASSWORD : var.fmc_password
-      CDFMC_DOMAIN: var.cdfmc_domain_uuid
-      CDFMC: !var.create_fmcv
-      CDO_TOKEN: var.cdo_token
+      CDFMC_DOMAIN : var.cdfmc_domain_uuid
+      CDFMC : !var.create_fmcv
+      CDO_TOKEN : var.cdo_token
       NO_OF_AZs : 1
-      ASG_NAME : aws_autoscaling_group.ftdv-asg.name
+      ASG_NAME : var.asg_name
       USER_NOTIFY_TOPIC_ARN : aws_sns_topic.user_notify_topic.arn
       SECURITY_GRP_2 : data.aws_security_group.allow_all.id
       LB_ARN_OUTSIDE : data.aws_lb.gwlb.id
@@ -142,4 +142,5 @@ resource "aws_lambda_function" "lifecycle_ftdv" {
     }
   }
   role = aws_iam_role.lambda_role.arn
+}
   
